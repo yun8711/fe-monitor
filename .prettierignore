@@ -1,0 +1,6 @@
+# 按需添加
+node_modules
+dist
+public
+*-lock.json
+/internal/create/template/
