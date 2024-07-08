@@ -4,10 +4,6 @@
   "description": "前端监控sdk",
   "main": "./dist/index.js",
   "type": "module",
-  "workspaces": [
-    "play/*",
-    "docs"
-  ],
   "keywords": [],
   "author": "",
   "files": [
@@ -21,10 +17,6 @@
   "browser": "./dist/index.umd.js",
   "scripts": {
     "bootstrap": "pnpm install",
-    "play:v3": "pnpm -C play/v3-vite dev",
-    "play:v2": "pnpm -C play/v2-webpack serve",
-    "play:html": "open play/html/index.html",
-    "docs": "pnpm -C docs dev",
     "commit": "czg",
     "release": "release-it --config .release-it.cjs",
     "build": "vite build",
@@ -36,8 +28,7 @@
     "lint:eslint": "eslint --fix --ext .vue,.ts,.tsx,.jsx,.js,.json,.md --max-warnings 0 --cache",
     "lint:style": "stylelint \"**/*.{css,scss,sass,vue}\" --allow-empty-input --fix",
     "clean": "rimraf node_modules **/*/node_modules",
-    "build:pre": "rimraf dist",
-    "docs:build": "pnpm -C docs build"
+    "build:pre": "rimraf dist"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.7",
@@ -60,7 +51,7 @@
     "rimraf": "^5.0.1",
     "rollup": "^4.1.4",
     "typescript": "^5.2.2",
-    "vite": "5.1.0-beta.2",
+    "vite": "5.2.6",
     "vue": "^3.4.30"
   },
   "publishConfig": {

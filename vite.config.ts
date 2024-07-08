@@ -50,12 +50,12 @@ export default (): UserConfigExport => {
             entryFileNames: 'index.js',
             exports: 'named',
           },
-          {
-            format: 'umd',
-            entryFileNames: 'index.umd.js',
-            name: 'KDMonitor',
-            exports: 'named',
-          },
+          // {
+          //   format: 'umd',
+          //   entryFileNames: 'index.umd.js',
+          //   name: 'KDMonitor',
+          //   exports: 'named',
+          // },
         ],
       },
     },
