@@ -193,7 +193,7 @@ function isIgnoreHttp(url: string): boolean {
 
   return options.ignoreRequest.some(item => {
     if (isRegExp(item)) {
-      return (item as RegExp).test(url);
+      return (item as unknown as RegExp).test(url);
     } else {
       return url === item;
     }
