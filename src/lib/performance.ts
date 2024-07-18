@@ -41,17 +41,26 @@ const performanceEntryAttrs = {
 function traceResourcePerformance(performance: PerformanceObserverEntryList) {
   // 排除xmlhttprequest类型,服务器有响应便会记录,包括404的请求,转由http-request模块负责记录请求数据,区分请求状态
   // 同时也会排除一些其他类型,比如在引入一个script后会触发一次性能监控,它的类型是beacon,这一次的要排除
-  const observerTypeList = ['img', 'script', 'link', 'audio', 'video'];
+  // xmlhttprequest: XMLHttpRequest请求,
+  // fetch: fetch请求,beacon: sendBeacon请求
+  // css: 静态CSS文件、包含css、webp、webm等文件,
+  // link：动态加载或插入的CSS文件,
+  // script: 动态插入的 JavaScript文件
+  const observerTypeList = ['img', 'script', 'link', 'audio', 'video', 'css', 'other'];
 
   const entries = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
   // const records: any[] = [];
 
   entries.forEach(entry => {
     // initiatorType含义：通过某种方式请求的资源,例如script,link..
-    const { initiatorType = '' } = entry;
+    const { initiatorType = '', name } = entry;
+    const nameCopy = name;
+    const newName = replaceUriHash(nameCopy);
+    // console.log('initiatorType', initiatorType);
+    const type = initiatorType.toLowerCase();
 
     // 只记录observerTypeList中列出的资源类型请求,不在列表中则跳过
-    if (observerTypeList.indexOf(initiatorType.toLowerCase()) < 0) return;
+    if (observerTypeList.indexOf(type) < 0) return;
 
     // sdk内部 img 发送请求的错误不会记录
     // if (sendReaconImageList.length) {
@@ -74,7 +83,9 @@ function traceResourcePerformance(performance: PerformanceObserverEntryList) {
       subType: 'resource',
       data: normalizeObj({
         ...value,
-        requestUrl: entry.name,
+        // 去除entry.name中的域名部分和hash部分
+        isCache: isCache(entry),
+        requestUrl: newName,
       }),
     } as PerformanceInfoType;
     // console.log('traceResourcePerformance', reportData);
@@ -227,6 +238,27 @@ function observeResource() {
       observeSourceInsert();
     }
   }
+}
+
+/**
+ * 进一步优化的方法，替换URL中的webpack哈希为"hash"字符串，同时保留前置和结尾的字符。
+ * @param url 原始URL字符串。
+ * @returns 替换哈希后的URL字符串。
+ */
+function replaceUriHash(url: string): string {
+  if (!url) return '';
+  // 正则表达式匹配webpack哈希，确保哈希模式以.或/或-开头，并以.结尾，同时保留这些字符
+  const hashPattern = /([\/.-])[0-9a-fA-F]+(\.\w+$)/;
+  return url.replace(hashPattern, '$1XXX$2');
+}
+
+/**
+ * 判断是否命中缓存
+ * @param data
+ */
+function isCache(data: PerformanceResourceTiming) {
+  // 直接从缓存读取或 304
+  return data.transferSize === 0 || (data.transferSize > 0 && data.encodedBodySize === 0);
 }
 
 export function initPerformance() {

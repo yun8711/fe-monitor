@@ -40,8 +40,9 @@ export function replaceAop(source: AnyObj, name: string, replacement: AnyFun, is
 export function normalizeObj(source: AnyObj) {
   Object.keys(source).forEach(p => {
     const v = source[p];
+    // console.log('v', v,'p',p, isNumber(v));
     if (isNumber(v)) {
-      source[p] = v === 0 ? undefined : parseFloat(v.toFixed(2));
+      source[p] = v === 0 ? v : parseFloat(v.toFixed(2));
     }
   });
   return source;
