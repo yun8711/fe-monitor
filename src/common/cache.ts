@@ -1,7 +1,5 @@
 import { getTimeStamp, pickObject } from '../utils/common';
-// import { sessionInfo, config } from './config';
 import { sessionInfo } from '../lib/session';
-import { options } from './options';
 import type { ReportDataType, SessionInfoType } from '../types/global';
 
 class Cache {
@@ -34,19 +32,19 @@ class Cache {
     if (data.type !== 'session') {
       data.datetime = getTimeStamp();
       data.sessionId = sessionInfo.id;
-      data.location = <Location>(
-        pickObject(window.location, [
-          'hash',
-          'host',
-          'hostname',
-          'href',
-          'origin',
-          'pathname',
-          'port',
-          'protocol',
-          'search',
-        ])
-      );
+      data.location = {
+        href: window.location.href,
+        origin: window.location.origin,
+        pathname: window.location.pathname,
+        search: window.location.search,
+        hash: window.location.hash,
+        host: window.location.host,
+        hostname: window.location.hostname,
+        port: window.location.port,
+        protocol: window.location.protocol,
+        iframe: window.top !== window.self,
+      };
+
       const isLogin = localStorage.getItem('isLogin') === 'true';
       if (!isLogin) {
         data.user = {};

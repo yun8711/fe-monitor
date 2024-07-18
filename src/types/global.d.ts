@@ -43,6 +43,19 @@ interface ProjectObject {
   enName: string; // 项目英文名
 }
 
+interface Location {
+  hash: string;
+  host: string;
+  hostname: string;
+  href: string;
+  origin: string;
+  pathname: string;
+  port: string;
+  protocol: string;
+  search: string;
+  iframe: boolean;
+}
+
 // 上报数据类型
 export interface ReportDataType {
   // 固定属性
