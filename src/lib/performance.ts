@@ -49,16 +49,14 @@ function traceResourcePerformance(performance: PerformanceObserverEntryList) {
   const observerTypeList = ['img', 'script', 'link', 'audio', 'video', 'css', 'other'];
 
   const entries = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
-  // const records: any[] = [];
 
   entries.forEach(entry => {
     // initiatorType含义：通过某种方式请求的资源,例如script,link..
     const { initiatorType = '', name } = entry;
     const nameCopy = name;
     const newName = replaceUriHash(nameCopy);
-    // console.log('initiatorType', initiatorType);
     const type = initiatorType.toLowerCase();
-
+    if (options.ignoreRequest.some(reg => reg.test(name))) return;
     // 只记录observerTypeList中列出的资源类型请求,不在列表中则跳过
     if (observerTypeList.indexOf(type) < 0) return;
 

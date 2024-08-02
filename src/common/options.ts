@@ -49,7 +49,7 @@ interface OptionsType {
   crashInterval: number;
   crashTimeout: number;
   ignoreErrors: string[];
-  ignoreRequest: string[];
+  ignoreRequest: RegExp[];
   ignorePage: string[];
   ignoreModules: string[];
 }
@@ -67,7 +67,7 @@ export const options: OptionsType = reactive({
   crashInterval: 10000, // 页面崩溃监控间隔
   crashTimeout: 15000, // 页面崩溃监控超时时间
   ignoreErrors: [], // 忽略上报的错误
-  ignoreRequest: [], // 忽略上报的请求
+  ignoreRequest: [], // 忽略监听的资源路径的正则表达式
   ignorePage: [], // 忽略上报的页面
   ignoreModules: [], // 忽略上报的模块
 });
@@ -86,7 +86,8 @@ export function initConfig(remoteOptions: RemoteConfig) {
   options.crashTimeout = remoteOptions.crashTimeout || 15000;
   options.performance = remoteOptions.performance || false;
   options.behavior = remoteOptions.behavior || false;
-  options.ignoreRequest = remoteOptions.ignoreRequest || [];
+  options.ignoreRequest =
+    remoteOptions.ignoreRequest?.length > 0 ? remoteOptions.ignoreRequest.map(x => new RegExp(x)) : [];
   options.ignorePage = remoteOptions.ignorePage || [];
   options.ignoreModules = remoteOptions.ignoreModules || [];
 }
