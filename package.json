@@ -8,6 +8,7 @@
   "author": "",
   "files": [
     "dist",
+    "package.json",
     "README.md"
   ],
   "exports": {
