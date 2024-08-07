@@ -1,6 +1,6 @@
 {
-  "name": "fe-monitor",
-  "version": "0.0.1",
+  "name": "kd-monitor",
+  "version": "0.2.0",
   "description": "前端监控sdk",
   "main": "./dist/index.js",
   "type": "module",
