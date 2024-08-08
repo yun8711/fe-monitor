@@ -1,0 +1,7 @@
+dist
+node_modules
+public
+iconfont
+/lib
+/es
+/src/utils/fingerprintjs.ts
