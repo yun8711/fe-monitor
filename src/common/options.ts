@@ -39,6 +39,7 @@ export function loadConfig(options: InitConfig) {
 interface OptionsType {
   enable: boolean;
   reportUrl: string;
+  devReport: boolean;
   log: boolean;
   timeout: number;
   maxCache: number;
@@ -57,6 +58,7 @@ interface OptionsType {
 export const options: OptionsType = reactive({
   enable: false,
   reportUrl: '',
+  devReport: false, // 本地开发环境是否上报数据, 默认不上报
   log: window.location.hostname === 'localhost', // 本地开发环境是否显示日志, 默认不显示
   timeout: 3000, // 延迟上报的时间间隔
   maxCache: 10, // 允许缓存的最大数据量
@@ -77,6 +79,7 @@ export function initConfig(remoteOptions: RemoteConfig) {
   options.enable = enable;
   if (!enable) return;
   options.reportUrl = remoteOptions.reportUrl;
+  options.devReport = remoteOptions.devReport || false;
   // options.log = remoteOptions.log || false;
   options.timeout = remoteOptions.timeout || 3000;
   options.maxCache = remoteOptions.maxCache || 10;

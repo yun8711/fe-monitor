@@ -23,6 +23,7 @@ async function init(options: InitConfig) {
   initConfig(remoteConfig as RemoteConfig);
   if (baseOptions.log) console.log('[fe-monitor] 配置参数', baseOptions);
   if (!baseOptions.enable) return;
+  if (!baseOptions.devReport && process.env.NODE_ENV === 'development') return;
   // 3、初始化会话信息
   initSession();
   // 5、注册各个监听事件
