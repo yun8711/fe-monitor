@@ -19,7 +19,7 @@
   "scripts": {
     "bootstrap": "pnpm install",
     "commit": "czg",
-    "release": "release-it --config .release-it.cjs",
+    "release": "release-it --config .release-it.cjs --only-version",
     "build": "vite build",
     "publish": "pnpm publish ./dist --no-git-checks",
     "preinstall": "npx only-allow pnpm",

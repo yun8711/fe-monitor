@@ -11,7 +11,7 @@ import report from './common/report';
 
 import type { ErrorInfoType, InitConfig, RemoteConfig } from './types/global';
 
-// 初始化
+// 初始化11
 async function init(options: InitConfig) {
   // 判断是否已经初始化，防止重复初始化；初始化过各中，会向全局挂载一个__webTracingInit__标识
   if (window.__feMonitor__) return;
