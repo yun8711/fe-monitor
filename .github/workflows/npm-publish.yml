@@ -35,32 +35,13 @@ jobs:
 
 
       # 发布成功后发送钉钉消息
-      - name: Send DingTalk Message
-        if: success()
-        run: |
-          curl -X POST ${{secrets.DINGTALK_WEBHOOK_URL}} \
-          -H 'Content-Type: application/json' \
-          -d '{
-            "msgtype": "markdown",
-            "markdown": {
-              "title": "包发布通知",
-              "text": "kd-monitor ${PACKAGE_VERSION} 已发布! [Npm 详情](https://www.npmjs.com/package/kd-monitor) [Github 详情](https://github.com/yun8711/fe-monitor) [Gitlab 详情](http://gitlab.keendata.net/fe-extension/fe-monitor)"
-            },
-            "at": {
-              "isAtAll": true
-            }
-          }'
-
-#  publish-npm:
-#    needs: build
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: actions/setup-node@v4
-#        with:
-#          node-version: 20.16.0
-#          registry-url: https://registry.npmjs.org/
-#      - run: npm ci
-#      - run: npm publish
-#        env:
-#          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: dingtalk robot message
+        uses: fifsky/dingtalk-action@master
+        with:
+          url: ${{ secrets.DINGTALK_WEBHOOK_URL}}
+          type: markdown
+          content: |
+            ## kd-monitor 发布通知
+            > from github action message
+            kd-monitor ${PACKAGE_VERSION} 已发布! <br/>
+            稍后查看详情：[Npm 详情](https://www.npmjs.com/package/kd-monitor) [Github 详情](https://github.com/yun8711/fe-monitor) [Gitlab 详情](http://gitlab.keendata.net/fe-extension/fe-monitor)"
