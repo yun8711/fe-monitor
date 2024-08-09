@@ -1,6 +1,6 @@
 {
   "name": "kd-monitor",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "前端监控sdk",
   "main": "./dist/index.js",
   "type": "module",

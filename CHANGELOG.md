@@ -1,5 +1,13 @@
 # 📋 更新历史
 
+## [0.3.2](https://github.com/yun8711/fe-monitor/compare/v0.3.1...v0.3.2) (2024-08-09)
+
+### 🐛 Bug Fixes | Bug 修复
+
+- 测试github actions ([96cb905](https://github.com/yun8711/fe-monitor/commit/96cb905166b2cb650c027e543fd3baca6ec16b15))
+
+# 📋 更新历史
+
 ## [0.3.1](https://github.com/yun8711/fe-monitor/compare/v0.3.0...v0.3.1) (2024-08-09)
 
 # 📋 更新历史
