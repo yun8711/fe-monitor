@@ -17,14 +17,19 @@ jobs:
       # 设定 node 环境
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20.16.0
           registry-url: https://registry.npmjs.org/
       # 安装PNPM
       - name: Setup Pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 9.6.0
+
+      # 安装依赖并使用 --frozen-lockfile 参数
       - run: pnpm install --frozen-lockfile
+
       - run: pnpm build
-      - run: npm publish
+      - run: pnpm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
