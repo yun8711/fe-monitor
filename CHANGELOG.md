@@ -1,5 +1,9 @@
 # 📋 更新历史
 
+## [0.3.1](https://github.com/yun8711/fe-monitor/compare/v0.3.0...v0.3.1) (2024-08-09)
+
+# 📋 更新历史
+
 ## [0.3.0](http://192.168.12.106/fe-extension/fe-monitor/compare/v0.2.0...v0.3.0) (2024-08-08)
 
 ### ✨ Features | 新功能
