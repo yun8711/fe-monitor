@@ -12,26 +12,44 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 拉取 github 仓库代码
       - uses: actions/checkout@v4
-      # 设定 node 环境
       - uses: actions/setup-node@v4
         with:
           node-version: 20.16.0
           registry-url: https://registry.npmjs.org/
-      # 安装PNPM
       - name: Setup Pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9.6.0
 
-      # 安装依赖并使用 --frozen-lockfile 参数
       - run: pnpm install --frozen-lockfile
-
       - run: pnpm build
       - run: pnpm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      # 获取当前包的版本号
+      - name: Get Package Version
+        id: get_version
+        run: echo "PACKAGE_VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
+
+
+      # 发布成功后发送钉钉消息
+      - name: Send DingTalk Message
+        if: success()
+        run: |
+          curl -X POST ${{secrets.DINGTALK_WEBHOOK_URL}} \
+          -H 'Content-Type: application/json' \
+          -d '{
+            "msgtype": "markdown",
+            "markdown": {
+              "title": "包发布通知",
+              "text": "kd-monitor ${PACKAGE_VERSION} 已发布! [Npm 详情](https://www.npmjs.com/package/kd-monitor) [Github 详情](https://github.com/yun8711/fe-monitor) [Gitlab 详情](http://gitlab.keendata.net/fe-extension/fe-monitor)"
+            },
+            "at": {
+              "isAtAll": true
+            }
+          }'
 
 #  publish-npm:
 #    needs: build
