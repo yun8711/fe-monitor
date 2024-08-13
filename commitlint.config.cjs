@@ -71,7 +71,8 @@ module.exports = {
     // 预设范围：string[] | Array<{ name: string, value?: string }>
     scopes: [
       { name: '基础配置', value: 'basic' },
-      { name: '构建', value: 'build' },
+      { name: '格式化', value: 'format' },
+      { name: '核心功能', value: 'core' },
       { name: '文档', value: 'docs' },
       { name: '组件', value: 'components' },
       { name: '测试', value: 'test' },
