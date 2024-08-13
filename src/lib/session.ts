@@ -23,6 +23,18 @@ export function initSession() {
     sessionInfo.visitorId = result;
     localStorage.setItem('FE_MONITOR_VISITOR_ID', result);
   }
+
+  const metaTag = document.querySelector('meta[name="version"]');
+  if (metaTag) {
+    const content = metaTag.getAttribute('content');
+    if (content) {
+      const branchStr = content.split('___').filter(x => x.startsWith('Branch:'))?.[0];
+      if (branchStr) {
+        sessionInfo.branch = branchStr.split(':')[1];
+      }
+    }
+  }
+
   sessionInfo.id = generateUUID();
   sessionStorage.setItem('FE_MONITOR_SESSION_ID', sessionInfo.id);
   sessionInfo.datetime = getTimeStamp();

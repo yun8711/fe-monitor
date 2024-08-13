@@ -1,3 +1,4 @@
+import { toRaw } from 'vue';
 import { initClick } from './lib/click';
 import { initError, parseError } from './lib/error';
 import { initPageCrash } from './lib/page-crash';
@@ -8,6 +9,7 @@ import { initConfig, loadConfig, options as baseOptions } from './common/options
 import { initSession } from './lib/session';
 import { initHttp } from './lib/http';
 import report from './common/report';
+import { log } from './utils/log';
 
 import type { ErrorInfoType, InitConfig, RemoteConfig } from './types/global';
 
@@ -21,9 +23,15 @@ async function init(options: InitConfig) {
   if (!remoteConfig) return;
   // 2、初始化配置参数
   initConfig(remoteConfig as RemoteConfig);
-  if (baseOptions.log) console.log('[fe-monitor] 配置参数', baseOptions);
-  if (!baseOptions.enable) return;
-  if (!baseOptions.devReport && process.env.NODE_ENV === 'development') return;
+  log('配置参数', toRaw(baseOptions)); //console.log('[fe-monitor] 配置参数', baseOptions);
+  if (!baseOptions.enable) {
+    log('监控功能未开启');
+    return;
+  }
+  if (!baseOptions.devReport && process.env.NODE_ENV === 'development') {
+    log('开发环境不上报数据');
+    return;
+  }
   // 3、初始化会话信息
   initSession();
   // 5、注册各个监听事件

@@ -80,6 +80,7 @@ export interface SessionInfoType {
   visitorId: string; // 浏览器指纹
   type: 'session';
   domain: string; // 域名
+  branch?: string; // 代码分支
   datetime: number; // 会话开始时间
   ua: string; // 浏览器标识
   availWidth: number; // 显示屏幕的宽度
